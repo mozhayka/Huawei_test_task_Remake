@@ -1,12 +1,12 @@
 package ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -19,9 +19,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import model.Monitor
 
-
 @Composable
-fun drawButtons(monitor: Monitor) {
+fun drawButtons(monitor: Monitor, onChangeDisplayType: () -> Unit) {
     MaterialTheme {
         Column (horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
@@ -29,9 +28,8 @@ fun drawButtons(monitor: Monitor) {
             }
             Row {
                 LeftButton(monitor)
-
+                DrawVisibilityButton(monitor, onChangeDisplayType)
                 RightButton(monitor)
-
             }
             Row {
                 DownButton(monitor)
@@ -78,12 +76,9 @@ fun DrawMoveButton(monitor: Monitor, onClick: () -> Unit, icon: ImageVector) {
     }
 }
 
-//@Composable
-//fun DrawVisibilityButton(monitor: Monitor) {
-//    Button(onClick = { onClick }) {
-//        Icon(
-//            imageVector = icon,
-//            contentDescription = null,
-//            modifier = Modifier.padding(end = 4.dp))
-//    }
-//}
+@Composable
+fun DrawVisibilityButton(monitor: Monitor, onClick: () -> Unit) {
+    Button(onClick = onClick) {
+        Text("Display type")
+    }
+}

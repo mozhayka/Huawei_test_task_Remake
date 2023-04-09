@@ -13,11 +13,64 @@ import model.UIElement
 import model.Visibility
 
 @Composable
-fun drawUIElement(elem: UIElement) {
+fun drawUIElement(elem: UIElement, type: DisplayType) {
+    when (type) {
+        DisplayType.AllWithSubelements -> drawAllWithSubelements(elem)
+        DisplayType.AllWithoutSubelements -> drawAllWithoutSubelements(elem)
+        DisplayType.OnlyVisibleWithSubelements -> drawOnlyVisibleWithSubelements(elem)
+        DisplayType.OnlyVisibleWithoutSubelements -> drawOnlyVisibleWithoutSubelements(elem)
+    }
+    if (elem.visibility == Visibility.Partially) {
+        for (sub in elem.subelements) {
+            drawUIElement(sub, type)
+        }
+    }
+}
+
+@Composable
+fun drawAllWithSubelements(elem: UIElement) {
+    drawBody(elem)
+    if (elem.visibility != Visibility.Partially) {
+        elem.subelements.forEach { it.visibility = elem.visibility }
+    }
+    for (sub in elem.subelements) {
+        drawAllWithSubelements(sub)
+    }
+}
+
+@Composable
+fun drawAllWithoutSubelements(elem: UIElement) {
     drawBody(elem)
     if (elem.visibility == Visibility.Partially) {
         for (sub in elem.subelements) {
-            drawUIElement(sub)
+            drawAllWithoutSubelements(sub)
+        }
+    }
+}
+
+@Composable
+fun drawOnlyVisibleWithSubelements(elem: UIElement) {
+    if (elem.visibility == Visibility.Invisible) {
+        return
+    }
+    drawBody(elem)
+    if (elem.visibility != Visibility.Partially) {
+        elem.subelements.forEach { it.visibility = elem.visibility }
+    }
+    for (sub in elem.subelements) {
+        drawOnlyVisibleWithSubelements(sub)
+    }
+}
+
+@Composable
+fun drawOnlyVisibleWithoutSubelements(elem: UIElement) {
+    if (elem.visibility == Visibility.Invisible) {
+        return
+    }
+    drawBody(elem)
+    if (elem.visibility == Visibility.Partially) {
+        for (sub in elem.subelements) {
+            drawOnlyVisibleWithoutSubelements(sub)
         }
     }
 }

@@ -1,6 +1,15 @@
 package model
 
-data class Rectangle(var top: Float, var bottom: Float, var left: Float, var right: Float)
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+class Rectangle(top: Float, bottom: Float, left: Float, right: Float) {
+    var top by mutableStateOf(top)
+    var bottom by mutableStateOf(bottom)
+    var left by mutableStateOf(left)
+    var right by mutableStateOf(right)
+}
 
 fun isInside(parent: Rectangle, child: Rectangle) : Boolean {
     return intersect(parent, child) == Intersection.Inside

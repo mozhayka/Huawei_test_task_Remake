@@ -14,9 +14,10 @@ import model.Visibility
 
 @Composable
 fun drawUIElement(elem: UIElement) {
+    println("Redraw UI ${elem.body}")
     drawBody(elem)
     if (elem.visibility == Visibility.Partially) {
-        for (sub in elem.subElements) {
+        for (sub in elem.subelements) {
             drawUIElement(sub)
         }
     }
@@ -25,10 +26,10 @@ fun drawUIElement(elem: UIElement) {
 @Composable
 fun drawBody(elem: UIElement) {
     val color = when (elem.visibility) {
-        Visibility.Visible -> Color.Red
-        Visibility.Invisible -> Color.Blue
-        Visibility.Partially -> Color.Green
-    }
+            Visibility.Visible -> Color.Red
+            Visibility.Invisible -> Color.Blue
+            Visibility.Partially -> Color.Green
+        }
     val size = Size(elem.body.right - elem.body.left, elem.body.bottom - elem.body.top)
     val topLeft = Offset(elem.body.left, elem.body.top)
 

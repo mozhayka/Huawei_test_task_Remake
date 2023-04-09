@@ -1,9 +1,12 @@
 package model
 
-class UIElement(
-    val body: Rectangle,
-    val subElements: MutableList<UIElement> = mutableListOf(),
-    var visibility: Visibility = Visibility.Partially) {
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+class UIElement(val body: Rectangle, val subelements: MutableList<UIElement> = mutableListOf()) {
+
+    var visibility by mutableStateOf(Visibility.Partially)
 
     fun addSubelement(sub: UIElement)
     {
@@ -11,6 +14,6 @@ class UIElement(
         {
             throw Exception("subElements is not inside parent ${this.body}, ${sub.body}")
         }
-        subElements.add(sub)
+        subelements.add(sub)
     }
 }

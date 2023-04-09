@@ -17,6 +17,7 @@ fun drawViewport(viewport: Viewport) {
     val size = Size(viewport.body.right - viewport.body.left, viewport.body.bottom - viewport.body.top)
     val topLeft = Offset(viewport.body.left, viewport.body.top)
 
+    println(Offset(viewport.body.left, viewport.body.top))
     Canvas(modifier = Modifier.fillMaxSize()) {
         drawRect(color, topLeft = topLeft, size = size, style = Stroke(width = 1.dp.toPx()))
     }

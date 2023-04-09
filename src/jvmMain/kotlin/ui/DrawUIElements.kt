@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.dp
 import model.UIElement
 import model.Visibility
 
@@ -27,10 +29,10 @@ fun drawBody(elem: UIElement) {
         Visibility.Invisible -> Color.Blue
         Visibility.Partially -> Color.Green
     }
-    val size = Size(elem.body.right - elem.body.left, elem.body.top - elem.body.bottom)
+    val size = Size(elem.body.right - elem.body.left, elem.body.bottom - elem.body.top)
     val topLeft = Offset(elem.body.left, elem.body.top)
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        drawRect(color, topLeft = topLeft, size = size)
+        drawRect(color, topLeft = topLeft, size = size, style = Stroke(width = 1.dp.toPx()))
     }
 }

@@ -9,7 +9,7 @@ class UIElement(
     {
         if (!isInside(this.body, sub.body))
         {
-            throw Exception("subElements is not inside parent")
+            throw Exception("subElements is not inside parent ${this.body}, ${sub.body}")
         }
         subElements.add(sub)
     }

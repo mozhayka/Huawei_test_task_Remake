@@ -9,23 +9,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import model.Monitor
+import ui.draw
 
-@Composable
-@Preview
-fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
-
-    MaterialTheme {
-        Button(onClick = {
-            text = "Hello, Desktop!"
-        }) {
-            Text(text)
-        }
-    }
-}
+//@Composable
+//@Preview
+//fun App() {
+//    var text by remember { mutableStateOf("Hello, World!") }
+//
+//    MaterialTheme {
+//        Button(onClick = {
+//            text = "Hello, Desktop!"
+//        }) {
+//            Text(text)
+//        }
+//    }
+//}
 
 fun main() = application {
+    val path = "src/jvmMain/input/TestInput2.txt"
+    val monitor = Monitor(path)
     Window(onCloseRequest = ::exitApplication) {
-        App()
+        draw(monitor)
     }
 }

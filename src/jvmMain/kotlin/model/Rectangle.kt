@@ -15,5 +15,5 @@ fun horizontalIntersect(parent: Rectangle, child: Rectangle) : Intersection {
 }
 
 fun verticalIntersect(parent: Rectangle, child: Rectangle) : Intersection {
-    return intersectSegments(parent.bottom, parent.top, child.bottom, child.top)
+    return intersectSegments(parent.top, parent.bottom, child.top, child.bottom)
 }

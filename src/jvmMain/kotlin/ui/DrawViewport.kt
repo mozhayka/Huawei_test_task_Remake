@@ -14,7 +14,7 @@ import model.Viewport
 @Composable
 fun drawViewport(viewport: Viewport) {
     val color = Color.Black
-    val size = Size(viewport.body.right - viewport.body.left, viewport.body.top - viewport.body.bottom)
+    val size = Size(viewport.body.right - viewport.body.left, viewport.body.bottom - viewport.body.top)
     val topLeft = Offset(viewport.body.left, viewport.body.top)
 
     Canvas(modifier = Modifier.fillMaxSize()) {

@@ -1,6 +1,6 @@
 package model
 
-class Viewport(private val body: Rectangle) {
+class Viewport(val body: Rectangle) {
     fun scrollHorizontally(distanceToTheRight: Float) {
         body.left += distanceToTheRight
         body.right += distanceToTheRight

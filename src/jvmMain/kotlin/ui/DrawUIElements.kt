@@ -28,19 +28,23 @@ fun drawUIElement(elem: UIElement, type: DisplayType) {
 }
 
 @Composable
-fun drawAllWithSubelements(elem: UIElement) {
-    drawBody(elem)
-    if (elem.visibility != Visibility.Partially) {
-        elem.subelements.forEach { it.visibility = elem.visibility }
+fun drawAllWithSubelements(elem: UIElement, visibility: Visibility = Visibility.Partially) {
+    if (visibility != Visibility.Partially) {
+        drawBody(elem, visibility)
+        for (sub in elem.subelements) {
+            drawAllWithSubelements(sub, visibility)
+        }
     }
+    drawBody(elem)
     for (sub in elem.subelements) {
-        drawAllWithSubelements(sub)
+        drawAllWithSubelements(sub, elem.visibility)
     }
 }
 
+
 @Composable
 fun drawAllWithoutSubelements(elem: UIElement) {
-    drawBody(elem)
+    drawFilledBody(elem)
     if (elem.visibility == Visibility.Partially) {
         for (sub in elem.subelements) {
             drawAllWithoutSubelements(sub)
@@ -49,16 +53,19 @@ fun drawAllWithoutSubelements(elem: UIElement) {
 }
 
 @Composable
-fun drawOnlyVisibleWithSubelements(elem: UIElement) {
+fun drawOnlyVisibleWithSubelements(elem: UIElement, visibility: Visibility = Visibility.Partially) {
     if (elem.visibility == Visibility.Invisible) {
         return
     }
-    drawBody(elem)
-    if (elem.visibility != Visibility.Partially) {
-        elem.subelements.forEach { it.visibility = elem.visibility }
+    if (visibility == Visibility.Visible) {
+        drawBody(elem, visibility)
+        for (sub in elem.subelements) {
+            drawOnlyVisibleWithSubelements(sub, visibility)
+        }
     }
+    drawBody(elem)
     for (sub in elem.subelements) {
-        drawOnlyVisibleWithSubelements(sub)
+        drawOnlyVisibleWithSubelements(sub, elem.visibility)
     }
 }
 
@@ -67,7 +74,7 @@ fun drawOnlyVisibleWithoutSubelements(elem: UIElement) {
     if (elem.visibility == Visibility.Invisible) {
         return
     }
-    drawBody(elem)
+    drawFilledBody(elem)
     if (elem.visibility == Visibility.Partially) {
         for (sub in elem.subelements) {
             drawOnlyVisibleWithoutSubelements(sub)
@@ -76,16 +83,42 @@ fun drawOnlyVisibleWithoutSubelements(elem: UIElement) {
 }
 
 @Composable
-fun drawBody(elem: UIElement) {
-    val color = when (elem.visibility) {
-            Visibility.Visible -> Color.Red
-            Visibility.Invisible -> Color.Blue
-            Visibility.Partially -> Color.Green
-        }
+fun drawBody(elem: UIElement, visibility: Visibility) {
+    val color = when (visibility) {
+        Visibility.Visible -> Color.Red
+        Visibility.Invisible -> Color.Blue
+        Visibility.Partially -> Color.Green
+    }
     val size = Size(elem.body.right - elem.body.left, elem.body.bottom - elem.body.top)
     val topLeft = Offset(elem.body.left, elem.body.top)
 
     Canvas(modifier = Modifier.fillMaxSize()) {
         drawRect(color, topLeft = topLeft, size = size, style = Stroke(width = 1.dp.toPx()))
     }
+}
+
+@Composable
+fun drawBody(elem: UIElement) {
+    drawBody(elem, elem.visibility)
+}
+
+@Composable
+fun drawFilledBody(elem: UIElement, visibility: Visibility) {
+    val color = when (visibility) {
+        Visibility.Visible -> Color.Red
+        Visibility.Invisible -> Color.Blue
+        Visibility.Partially -> Color.Green
+    }
+    val size = Size(elem.body.right - elem.body.left, elem.body.bottom - elem.body.top)
+    val topLeft = Offset(elem.body.left, elem.body.top)
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        drawRect(color, topLeft = topLeft, size = size)
+        drawRect(Color.Magenta, topLeft = topLeft, size = size, style = Stroke(width = 1.dp.toPx()))
+    }
+}
+
+@Composable
+fun drawFilledBody(elem: UIElement) {
+    drawFilledBody(elem, elem.visibility)
 }

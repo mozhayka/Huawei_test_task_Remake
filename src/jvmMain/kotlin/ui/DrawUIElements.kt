@@ -28,16 +28,12 @@ fun drawUIElement(elem: UIElement, type: DisplayType) {
 }
 
 @Composable
-fun drawAllWithSubelements(elem: UIElement, visibility: Visibility = Visibility.Partially) {
-    if (visibility != Visibility.Partially) {
-        drawBody(elem, visibility)
-        for (sub in elem.subelements) {
-            drawAllWithSubelements(sub, visibility)
-        }
-    }
+fun drawAllWithSubelements(elem: UIElement) {
     drawBody(elem)
     for (sub in elem.subelements) {
-        drawAllWithSubelements(sub, elem.visibility)
+        if (elem.visibility != Visibility.Partially)
+            sub.visibility = elem.visibility
+        drawAllWithSubelements(sub)
     }
 }
 
@@ -53,19 +49,15 @@ fun drawAllWithoutSubelements(elem: UIElement) {
 }
 
 @Composable
-fun drawOnlyVisibleWithSubelements(elem: UIElement, visibility: Visibility = Visibility.Partially) {
+fun drawOnlyVisibleWithSubelements(elem: UIElement) {
     if (elem.visibility == Visibility.Invisible) {
         return
     }
-    if (visibility == Visibility.Visible) {
-        drawBody(elem, visibility)
-        for (sub in elem.subelements) {
-            drawOnlyVisibleWithSubelements(sub, visibility)
-        }
-    }
     drawBody(elem)
     for (sub in elem.subelements) {
-        drawOnlyVisibleWithSubelements(sub, elem.visibility)
+        if (elem.visibility == Visibility.Visible)
+            sub.visibility = Visibility.Visible
+        drawOnlyVisibleWithSubelements(sub)
     }
 }
 
@@ -83,8 +75,8 @@ fun drawOnlyVisibleWithoutSubelements(elem: UIElement) {
 }
 
 @Composable
-fun drawBody(elem: UIElement, visibility: Visibility) {
-    val color = when (visibility) {
+fun drawBody(elem: UIElement) {
+    val color = when (elem.visibility) {
         Visibility.Visible -> Color.Red
         Visibility.Invisible -> Color.Blue
         Visibility.Partially -> Color.Green
@@ -98,13 +90,8 @@ fun drawBody(elem: UIElement, visibility: Visibility) {
 }
 
 @Composable
-fun drawBody(elem: UIElement) {
-    drawBody(elem, elem.visibility)
-}
-
-@Composable
-fun drawFilledBody(elem: UIElement, visibility: Visibility) {
-    val color = when (visibility) {
+fun drawFilledBody(elem: UIElement) {
+    val color = when (elem.visibility) {
         Visibility.Visible -> Color.Red
         Visibility.Invisible -> Color.Blue
         Visibility.Partially -> Color.Green
@@ -116,9 +103,4 @@ fun drawFilledBody(elem: UIElement, visibility: Visibility) {
         drawRect(color, topLeft = topLeft, size = size)
         drawRect(Color.Magenta, topLeft = topLeft, size = size, style = Stroke(width = 1.dp.toPx()))
     }
-}
-
-@Composable
-fun drawFilledBody(elem: UIElement) {
-    drawFilledBody(elem, elem.visibility)
 }

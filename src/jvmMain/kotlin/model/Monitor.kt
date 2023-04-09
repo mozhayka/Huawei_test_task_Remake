@@ -12,13 +12,11 @@ class Monitor(viewport: Viewport, rootElements: MutableList<UIElement>) {
     fun scrollHorizontally(distToTheRight: Float) {
         viewport.scrollHorizontally(distToTheRight)
         updateVisibility()
-        println("scroll horizontally ${viewport.body}")
     }
 
     fun scrollVertically(distToTheTop: Float) {
         viewport.scrollVertically(distToTheTop)
         updateVisibility()
-        println("scroll vertically ${viewport.body}")
     }
 
     fun updateVisibility() {

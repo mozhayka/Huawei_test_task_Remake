@@ -14,7 +14,6 @@ import model.Visibility
 
 @Composable
 fun drawUIElement(elem: UIElement) {
-    println("Redraw UI ${elem.body}")
     drawBody(elem)
     if (elem.visibility == Visibility.Partially) {
         for (sub in elem.subelements) {

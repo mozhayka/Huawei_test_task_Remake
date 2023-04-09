@@ -12,9 +12,8 @@ class Viewport(initialBody: Rectangle) {
     }
 
     fun scrollVertically(distanceToTheTop: Float) {
-        println("scroll vertically $body")
-        body.top += distanceToTheTop
-        body.bottom += distanceToTheTop
+        body.top -= distanceToTheTop
+        body.bottom -= distanceToTheTop
     }
 
     fun isVisible(element: UIElement) : Visibility {

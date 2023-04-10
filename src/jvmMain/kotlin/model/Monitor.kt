@@ -70,7 +70,7 @@ private fun createUIElement(s: String) : Pair<UIElement, Int> {
     val bottom = top + args[3].toFloat()
     val right = left + args[4].toFloat()
 
-    val elem = remember {UIElement(Rectangle(top, bottom, left, right))}
+    val elem = UIElement(Rectangle(top, bottom, left, right))
     return Pair(elem, prev)
 }
 
@@ -83,5 +83,5 @@ private fun createViewport(s: String): Viewport {
     val bottom = top + args[2].toFloat()
     val right = left + args[3].toFloat()
 
-    return remember { Viewport(Rectangle(top, bottom, left, right)) }
+    return Viewport(Rectangle(top, bottom, left, right))
 }
